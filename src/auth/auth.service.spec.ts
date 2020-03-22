@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { JWT_MODULE_OPTIONS } from '@nestjs/jwt/dist/jwt.constants';
 import { AuthService } from './auth.service';
-import { User } from '../users/user.entity';
+import { User, UserRole } from '../users/user.entity';
 import { UsersService } from '../users/users.service';
 
 describe('AuthService', () => {
@@ -48,6 +48,7 @@ describe('AuthService', () => {
       email: 'tester@test.com',
       password: 'qwerty',
       isActive: true,
+      role: UserRole.PUPIL,
     };
 
     const {password, ...result} = user;
@@ -68,11 +69,15 @@ describe('AuthService', () => {
       email: 'tester@test.com',
       password: 'qwerty',
       isActive: true,
+      role: UserRole.PUPIL,
     };
 
     const token = 'token';
     const result = {
       access_token: token,
+      email: user.email,
+      userId: user.id,
+      username: user.username,
     };
 
     jest.spyOn(jwtService, 'sign').mockReturnValue(token);

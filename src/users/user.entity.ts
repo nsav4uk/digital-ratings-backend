@@ -1,5 +1,10 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
+export enum UserRole {
+  TEACHER = 'teacher',
+  PUPIL = 'pupil',
+}
+
 export interface UserInterface {
   id: number;
   username: string;
@@ -24,4 +29,11 @@ export class User implements UserInterface {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.PUPIL,
+  })
+  role: UserRole;
 }
